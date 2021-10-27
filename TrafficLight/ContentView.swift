@@ -13,24 +13,21 @@ struct ContentView: View {
     }
 
     @State private var buttonName = "START"
-    @State private var lightIsOn = 5.0
-    @State private var lightIsOff = 0.2
+    @State private var opacityRedSignal = 0.2
+    @State private var opacityYellowSignal = 0.2
+    @State private var opacityGreenSignal = 0.2
     @State private var currentLight = CurrentLight.red
-    @State private var redColor: Color = .red
-    @State private var yellowColor: Color = .yellow
-    @State private var greenColor: Color = .green
-    @State private var tapCount = 0
     
     var body: some View {
         ZStack {
             Color(.black)
                 .ignoresSafeArea()
             VStack {
-                TrafficSignalView(color: redColor)
+                TrafficSignalView(color: .red, opacity: opacityRedSignal)
                     .padding()
-                TrafficSignalView(color: yellowColor)
+                TrafficSignalView(color: .yellow, opacity: opacityYellowSignal)
                     .padding(.bottom)
-                TrafficSignalView(color: greenColor)
+                TrafficSignalView(color: .green, opacity: opacityGreenSignal)
                 Spacer()
                 Button(action: toggleTheSignal) {
                     Text(buttonName)
@@ -49,24 +46,21 @@ struct ContentView: View {
     private func toggleTheSignal() {
         buttonName = "NEXT"
         
-        tapCount += 1
+        let lightIsOn = 5.0
+        let lightIsOff = 0.2
         
         switch currentLight {
         case .red:
-            if tapCount == 1 {
-                greenColor = greenColor
-            } else {
-                greenColor = greenColor.opacity(lightIsOff)
-            }
-            redColor = redColor.opacity(lightIsOn)
+            opacityGreenSignal = lightIsOff
+            opacityRedSignal = lightIsOn
             currentLight = CurrentLight.yellow
         case .yellow:
-            redColor = redColor.opacity(lightIsOff)
-            yellowColor = yellowColor.opacity(lightIsOn)
+            opacityRedSignal = lightIsOff
+            opacityYellowSignal = lightIsOn
             currentLight = CurrentLight.green
         case .green:
-            yellowColor = yellowColor.opacity(lightIsOff)
-            greenColor = greenColor.opacity(lightIsOn)
+            opacityYellowSignal = lightIsOff
+            opacityGreenSignal = lightIsOn
             currentLight = CurrentLight.red
         }
     }
