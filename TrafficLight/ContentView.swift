@@ -32,31 +32,25 @@ struct ContentView: View {
                     .padding(.bottom)
                 TrafficSignalView(color: greenColor)
                 Spacer()
-                signalSwitchingButton
+                Button(action: toggleTheSignal) {
+                    Text(buttonName)
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                }
+                .frame(width: 150, height: 50)
+                .background(.blue)
+                .cornerRadius(20)
             }
             .padding(.bottom)
         }
     }
     
-    private var signalSwitchingButton: some View {
-        Button {
-            buttonName = "NEXT"
-            
-            tapCount += 1
-            
-            toggleTheSignal()
-        } label: {
-            Text(buttonName)
-                .font(.title)
-                .fontWeight(.bold)
-                .foregroundColor(.white)
-        }
-        .frame(width: 150, height: 50)
-        .background(.blue)
-        .cornerRadius(20)
-    }
-    
     private func toggleTheSignal() {
+        buttonName = "NEXT"
+        
+        tapCount += 1
+        
         switch currentLight {
         case .red:
             if tapCount == 1 {
