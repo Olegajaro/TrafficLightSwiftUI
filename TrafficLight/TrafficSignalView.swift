@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TrafficSignalView: View {
+    
     let color: Color
     let opacity: Double
     
@@ -16,7 +17,7 @@ struct TrafficSignalView: View {
             .foregroundColor(color)
             .opacity(opacity)
             .frame(width: 120, height: 120)
-            .overlay(Circle().stroke(Color(.white), lineWidth: 4))
+            .overlay(Circle().stroke(Color.white, lineWidth: 4))
     }
 }
 

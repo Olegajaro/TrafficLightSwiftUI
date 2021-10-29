@@ -7,41 +7,19 @@
 
 import SwiftUI
 
+enum CurrentLight {
+    case red, yellow, green
+}
+
 struct ContentView: View {
-    private enum CurrentLight {
-        case red, yellow, green
-    }
 
     @State private var buttonName = "START"
+    
     @State private var opacityRedSignal = 0.2
     @State private var opacityYellowSignal = 0.2
     @State private var opacityGreenSignal = 0.2
-    @State private var currentLight = CurrentLight.red
     
-    var body: some View {
-        ZStack {
-            Color(.black)
-                .ignoresSafeArea()
-            VStack {
-                TrafficSignalView(color: .red, opacity: opacityRedSignal)
-                    .padding()
-                TrafficSignalView(color: .yellow, opacity: opacityYellowSignal)
-                    .padding(.bottom)
-                TrafficSignalView(color: .green, opacity: opacityGreenSignal)
-                Spacer()
-                Button(action: toggleTheSignal) {
-                    Text(buttonName)
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                }
-                .frame(width: 150, height: 50)
-                .background(.blue)
-                .cornerRadius(20)
-            }
-            .padding(.bottom)
-        }
-    }
+    @State private var currentLight = CurrentLight.red
     
     private func toggleTheSignal() {
         buttonName = "NEXT"
@@ -62,6 +40,26 @@ struct ContentView: View {
             opacityYellowSignal = lightIsOff
             opacityGreenSignal = lightIsOn
             currentLight = CurrentLight.red
+        }
+    }
+}
+
+extension ContentView {
+    var body: some View {
+        ZStack {
+            Color(.black)
+                .ignoresSafeArea()
+            
+            VStack(spacing: 20) {
+                TrafficSignalView(color: .red, opacity: opacityRedSignal)
+                TrafficSignalView(color: .yellow, opacity: opacityYellowSignal)
+                TrafficSignalView(color: .green, opacity: opacityGreenSignal)
+                
+                Spacer()
+                
+                SwitchButton(titleButton: buttonName, action: toggleTheSignal)
+            }
+            .padding()
         }
     }
 }
