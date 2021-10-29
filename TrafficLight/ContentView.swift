@@ -14,32 +14,15 @@ enum CurrentLight {
 struct ContentView: View {
 
     @State private var buttonName = "START"
-    
-    @State private var opacityRedSignal = 0.2
-    @State private var opacityYellowSignal = 0.2
-    @State private var opacityGreenSignal = 0.2
-    
     @State private var currentLight = CurrentLight.red
     
     private func toggleTheSignal() {
         buttonName = "NEXT"
         
-        let lightIsOn = 5.0
-        let lightIsOff = 0.2
-        
         switch currentLight {
-        case .red:
-            opacityGreenSignal = lightIsOff
-            opacityRedSignal = lightIsOn
-            currentLight = CurrentLight.yellow
-        case .yellow:
-            opacityRedSignal = lightIsOff
-            opacityYellowSignal = lightIsOn
-            currentLight = CurrentLight.green
-        case .green:
-            opacityYellowSignal = lightIsOff
-            opacityGreenSignal = lightIsOn
-            currentLight = CurrentLight.red
+        case .red: currentLight = .yellow
+        case .yellow: currentLight = .green
+        case .green: currentLight = .red
         }
     }
 }
@@ -51,9 +34,18 @@ extension ContentView {
                 .ignoresSafeArea()
             
             VStack(spacing: 20) {
-                TrafficSignalView(color: .red, opacity: opacityRedSignal)
-                TrafficSignalView(color: .yellow, opacity: opacityYellowSignal)
-                TrafficSignalView(color: .green, opacity: opacityGreenSignal)
+                TrafficSignalView(
+                    color: .red,
+                    opacity: currentLight == .red ? 1 : 0.3
+                )
+                TrafficSignalView(
+                    color: .yellow,
+                    opacity: currentLight == .yellow ? 1 : 0.3
+                )
+                TrafficSignalView(
+                    color: .green,
+                    opacity: currentLight == .green ? 1 : 0.3
+                )
                 
                 Spacer()
                 
